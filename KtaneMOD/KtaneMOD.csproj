@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>preview</LangVersion>
+
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <NoWarn>$(NoWarn);CS0436</NoWarn>
+
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>Millionaire</Platforms>
+
+        <DebugType>embedded</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+        <PackageReference Include="UnityEngine.Modules" Version="2021.1.14" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="$(KTANE)/ktane_Data/Managed/*" Publicize="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources/**" />
+        <EmbeddedResource Remove="Resources/**/*.cs" />
+    </ItemGroup>
+</Project>
