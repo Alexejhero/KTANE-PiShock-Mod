@@ -41,10 +41,10 @@ public struct PiShockConfig
             username = PlayerPrefs.GetString("shocker_pishock_username"),
             apiKey = PlayerPrefs.GetString("shocker_pishock_apikey"),
             code = PlayerPrefs.GetString("shocker_pishock_code"),
-            strikeIntensity = PlayerPrefs.GetInt("shocker_strike_intensity", 25),
+            strikeIntensity = PlayerPrefs.GetInt("shocker_strike_intensity", 20),
             strikeDuration = PlayerPrefs.GetInt("shocker_strike_duration", 1),
-            explodeIntensity = PlayerPrefs.GetInt("shocker_explode_intensity", 50),
-            explodeDuration = PlayerPrefs.GetInt("shocker_explode_duration", 2),
+            explodeIntensity = PlayerPrefs.GetInt("shocker_explode_intensity", 30),
+            explodeDuration = PlayerPrefs.GetInt("shocker_explode_duration", 1),
             // preventCheating = PlayerPrefs.GetInt("shocker_prevent_cheating", 1) == 1
         };
     }
