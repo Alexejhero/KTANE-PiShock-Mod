@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Records;
+﻿using System.Collections;
+using Assets.Scripts.Records;
 using UnityEngine;
 
 namespace KtaneMOD;
@@ -6,6 +7,7 @@ namespace KtaneMOD;
 public static class Events
 {
     public static float DelayAmount { get; set; } = -1f;
+    private static Coroutine _alarmClockCoroutine;
 
     public static void OnStrike()
     {
@@ -61,6 +63,21 @@ public static class Events
         if (remaining <= 15)
         {
             PiShock.TimeRunningOut();
+        }
+    }
+
+    public static void OnAlarmClockChange(bool on)
+    {
+        _alarmClockCoroutine = on ? Plugin.Instance.StartCoroutine(CoVibrate()) : null;
+        return;
+
+        IEnumerator CoVibrate()
+        {
+            while (_alarmClockCoroutine != null)
+            {
+                PiShock.AlarmClockBeep();
+                yield return new WaitForSeconds(0.5f);
+            }
         }
     }
 }

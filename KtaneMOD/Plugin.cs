@@ -26,6 +26,8 @@ public sealed class Plugin : BaseUnityPlugin
 
         BombEvents.OnBombDetonated += Events.OnExplode;
         BombEvents.OnBombSolved += Events.OnDefuse;
+
+        EnvironmentEvents.OnAlarmClockChange += Events.OnAlarmClockChange;
     }
 
     [HarmonyPatch(typeof(Bomb), nameof(Bomb.OnStrike))]
