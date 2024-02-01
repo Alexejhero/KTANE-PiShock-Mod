@@ -1,57 +1,42 @@
 ﻿using System.Reflection;
+using Assets.Scripts.DossierMenu;
 using BepInEx;
-using BepInEx.Configuration;
+using BepInEx.Logging;
 using Events;
 using HarmonyLib;
-using UnityEngine.Networking;
 
 namespace KtaneMOD;
 
 [BepInPlugin("KtaneMOD", "KtaneMOD", "1.0.0"), HarmonyPatch]
 public sealed class Plugin : BaseUnityPlugin
 {
-    public static Plugin Instance;
-
-    public ConfigEntry<string> StrikeEndpoint;
-    public ConfigEntry<string> ExplodeEndpoint;
-    public ConfigEntry<string> DefuseEndpoint;
+    public new static ManualLogSource Logger { get; } = BepInEx.Logging.Logger.CreateLogSource("KtaneMOD");
+    public static PiShockConfig PiShockConfig { get; set; }
 
     private void Awake()
     {
-        Instance = this;
+        gameObject.AddComponent<ConfigServer>();
 
-        StrikeEndpoint = Config.Bind("Endpoints", "StrikeEndpoint", "http://localhost:8080/ktane/strike");
-        ExplodeEndpoint = Config.Bind("Endpoints", "ExplodeEndpoint", "http://localhost:8080/ktane/explode");
-        DefuseEndpoint = Config.Bind("Endpoints", "DefuseEndpoint", "http://localhost:8080/ktane/defuse");
+        PiShockConfig = PiShockConfig.LoadFromPlayerPrefs();
 
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
-        BombEvents.OnBombDetonated += OnDetonate;
-        BombEvents.OnBombSolved += OnDefuse;
-    }
-
-    private void OnDetonate()
-    {
-        Logger.LogWarning("Bomb denotated! Sending request");
-        UnityWebRequest request = UnityWebRequest.Get(ExplodeEndpoint.Value);
-        request.SendWebRequest();
-    }
-
-    private void OnDefuse()
-    {
-        Logger.LogWarning("Bomb defused! Sending request");
-        UnityWebRequest request = UnityWebRequest.Get(DefuseEndpoint.Value);
-        request.SendWebRequest();
+        BombEvents.OnBombDetonated += Events.OnExplode;
+        BombEvents.OnBombSolved += Events.OnDefuse;
     }
 
     [HarmonyPatch(typeof(Bomb), nameof(Bomb.OnStrike))]
-    private static void Prefix(Bomb __instance)
+    private static void OnStrikePatch(Bomb __instance)
     {
         if (__instance.NumStrikes != __instance.NumStrikesToLose - 1)
         {
-            Instance.Logger.LogWarning("Got a strike! Sending request");
-            UnityWebRequest request = UnityWebRequest.Get(Instance.StrikeEndpoint.Value);
-            request.SendWebRequest();
+            Events.OnStrike();
         }
+    }
+
+    [HarmonyPatch(typeof(GameplayMenuPage), "ReturnToSetupRoom")]
+    private static void OnQuitPatch()
+    {
+        if (PiShockConfig.preventCheating) Events.OnExplode();
     }
 }

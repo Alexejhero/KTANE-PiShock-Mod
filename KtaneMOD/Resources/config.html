@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en"> <!--style="background-image: url('https://c.tenor.com/jUMex_rdqPwAAAAd/tenor.gif');"-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background: none">
+    <form action="/save" method="post">
+        <h1>Keep Talking and Nobody Explodes PiShock Integration</h1>
+
+        <h2>Authentication</h2>
+        <div>Username: <input type="password" name="username" value="{{username}}"/></div>
+        <div>API Key: <input type="password" name="apiKey" value="{{apiKey}}"/></div>
+        <div>Code: <input type="password" name="code" value="{{code}}"/></div>
+
+        <h2>Strike</h2>
+        <div>Intensity: <input type="number" name="strikeIntensity" min="0" max="100" value="{{strikeIntensity}}"/></div>
+        <div>Duration: <input type="number" name="strikeDuration" min="1" max="15" value="{{strikeDuration}}"/></div>
+
+        <h2>Explode</h2>
+        <div>Intensity: <input type="number" name="explodeIntensity" min="0" max="100" value="{{explodeIntensity}}"/></div>
+        <div>Duration: <input type="number" name="explodeDuration" min="1" max="15" value="{{explodeDuration}}"/></div>
+        <div>
+            <!--suppress HtmlUnknownAttribute -->
+            <input type="checkbox" name="preventCheating" {{preventCheating}}/> Prevent cheating</div>
+        <br/>
+        <br/>
+        <button type="submit">Save</button>
+    </form>
+
+    <form action="/test" method="get">
+        <div><button type="submit">Test</button> (PRESS SAVE BEFORE TESTING OTHERWISE IT WONT WORK)</div>
+    </form>
+</body>
+</html>
