@@ -60,14 +60,6 @@ public static class PiShock
         });
     }
 
-    public static void LightsOff(float delay = 0)
-    {
-        ExecuteWithDelay(delay, () =>
-        {
-            SendOperation(1, 10, 10);
-        });
-    }
-
     public static void Test(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>

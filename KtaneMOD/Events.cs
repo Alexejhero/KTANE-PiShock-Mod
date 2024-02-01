@@ -84,9 +84,4 @@ public static class Events
             }
         }
     }
-
-    public static void OnLightsOff()
-    {
-        PiShock.LightsOff();
-    }
 }
