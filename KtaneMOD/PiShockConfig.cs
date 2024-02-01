@@ -13,7 +13,7 @@ public struct PiShockConfig
 
     public int explodeIntensity;
     public int explodeDuration;
-    public bool preventCheating;
+    // public bool preventCheating;
 
     public bool IsValid()
     {
@@ -29,7 +29,7 @@ public struct PiShockConfig
         PlayerPrefs.SetInt("shocker_strike_duration", strikeDuration);
         PlayerPrefs.SetInt("shocker_explode_intensity", explodeIntensity);
         PlayerPrefs.SetInt("shocker_explode_duration", explodeDuration);
-        PlayerPrefs.SetInt("shocker_prevent_cheating", preventCheating ? 1 : 0);
+        // PlayerPrefs.SetInt("shocker_prevent_cheating", preventCheating ? 1 : 0);
 
         PlayerPrefs.Save();
     }
@@ -45,7 +45,7 @@ public struct PiShockConfig
             strikeDuration = PlayerPrefs.GetInt("shocker_strike_duration", 1),
             explodeIntensity = PlayerPrefs.GetInt("shocker_explode_intensity", 50),
             explodeDuration = PlayerPrefs.GetInt("shocker_explode_duration", 2),
-            preventCheating = PlayerPrefs.GetInt("shocker_prevent_cheating", 1) == 1
+            // preventCheating = PlayerPrefs.GetInt("shocker_prevent_cheating", 1) == 1
         };
     }
 }

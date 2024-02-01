@@ -60,7 +60,7 @@ public sealed class ConfigServer : MonoBehaviour
                         strikeDuration = int.Parse(args["strikeDuration"]),
                         explodeIntensity = int.Parse(args["explodeIntensity"]),
                         explodeDuration = int.Parse(args["explodeDuration"]),
-                        preventCheating = args.TryGetValue("preventCheating", out string value) && value == "on"
+                        // preventCheating = args.TryGetValue("preventCheating", out string value) && value == "on"
                     };
                     config.SaveToPlayerPrefs();
 
@@ -86,7 +86,8 @@ public sealed class ConfigServer : MonoBehaviour
                         .Replace("{{strikeDuration}}", config.strikeDuration.ToString())
                         .Replace("{{explodeIntensity}}", config.explodeIntensity.ToString())
                         .Replace("{{explodeDuration}}", config.explodeDuration.ToString())
-                        .Replace("{{preventCheating}}", config.preventCheating ? "checked" : "");
+                        // .Replace("{{preventCheating}}", config.preventCheating ? "checked" : "")
+                        ;
 
                     response.StatusCode = 200;
                     response.ContentType = "text/html";

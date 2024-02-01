@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace KtaneMOD;
@@ -7,20 +10,65 @@ public static class PiShock
 {
     private const string API_URL = "https://do.pishock.com/api/apioperate/";
 
-    public static void Strike()
+    public static void Strike(float delay = 0)
     {
-        SendOperation(0, Plugin.PiShockConfig.strikeIntensity, Plugin.PiShockConfig.strikeDuration);
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(0, Plugin.PiShockConfig.strikeIntensity, Plugin.PiShockConfig.strikeDuration);
+        });
     }
 
-    public static void Explode()
+    public static void Explode(float delay = 0)
     {
-        SendOperation(0, Plugin.PiShockConfig.explodeIntensity, Plugin.PiShockConfig.explodeDuration);
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(0, Plugin.PiShockConfig.explodeIntensity, Plugin.PiShockConfig.explodeDuration);
+        });
     }
 
-    public static void Test()
+    public static void FakeoutExplode(float delay = 0)
     {
-        SendOperation(1, 20, 1);
-        SendOperation(2, 50, 1);
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(1, 80, 300);
+        });
+    }
+
+    public static void Defuse(float delay = 0)
+    {
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(1, 20, 500);
+        });
+    }
+
+    public static void TimeRunningOut(float delay = 0)
+    {
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(2, 50, 300);
+        });
+    }
+
+    public static void Test(float delay = 0)
+    {
+        SendOperationWithDelay(delay, () =>
+        {
+            SendOperation(1, 20, 1);
+            SendOperation(2, 50, 1);
+        });
+    }
+
+    private static void SendOperationWithDelay(float delay, Action action)
+    {
+        Plugin.Instance.StartCoroutine(Coroutine());
+        return;
+
+        IEnumerator Coroutine()
+        {
+            yield return new WaitForSeconds(delay);
+            action();
+        }
     }
 
     private static void SendOperation(int op, int intensity, int duration)
