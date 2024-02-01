@@ -6,8 +6,7 @@ namespace KtaneMOD;
 
 public static class Events
 {
-    public static float DelayAmount { get; set; } = -1f;
-    private static Coroutine _alarmClockCoroutine;
+    public static float DelayAmount { get; set; }
 
     public static void OnStrike()
     {
@@ -20,7 +19,7 @@ public static class Events
 
         if (record.Result == GameResultEnum.ExplodedDueToTime || record.Result == GameResultEnum.ExplodedDueToStrikes && record.TimeRemaining < 15f)
         {
-            int branch = Random.Range(0, 3);
+            int branch = Random.Range(0, 4);
 
             switch (branch)
             {
@@ -36,6 +35,10 @@ public static class Events
                     DelayAmount = Random.Range(6f, 8f);
                     float fakeoutDelay = Random.Range(0.3f, 0.9f) * DelayAmount;
                     PiShock.FakeoutExplode(fakeoutDelay);
+                    break;
+
+                case 3: // instant explosion
+                    DelayAmount = 0f;
                     break;
             }
 
@@ -66,6 +69,7 @@ public static class Events
         }
     }
 
+    private static Coroutine _alarmClockCoroutine;
     public static void OnAlarmClockChange(bool on)
     {
         _alarmClockCoroutine = on ? Plugin.Instance.StartCoroutine(CoVibrate()) : null;
@@ -79,5 +83,10 @@ public static class Events
                 yield return new WaitForSeconds(0.5f);
             }
         }
+    }
+
+    public static void OnLightsOff()
+    {
+        PiShock.LightsOff();
     }
 }

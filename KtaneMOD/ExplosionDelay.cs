@@ -21,7 +21,7 @@ internal static class ExplosionDelay
         IEnumerator CoEnterState()
         {
             yield return new WaitForSeconds(Events.DelayAmount);
-            Events.DelayAmount = -1;
+            Events.DelayAmount = 0;
 
             __instance.EnterState(success);
         }
@@ -31,7 +31,6 @@ internal static class ExplosionDelay
     [HarmonyPrefix]
     private static void DelayBombExplosionSound(string sType, ref float delaySoundTime)
     {
-
         if (Events.DelayAmount <= 0) return;
 
         if (sType == "bomb_explode") delaySoundTime = Events.DelayAmount;

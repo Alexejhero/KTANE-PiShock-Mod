@@ -15,11 +15,11 @@
 
         <h2>Strike</h2>
         <div>Intensity: <input type="number" name="strikeIntensity" min="0" max="100" value="{{strikeIntensity}}"/></div>
-        <div>Duration: <input type="number" name="strikeDuration" min="1" max="15" value="{{strikeDuration}}"/></div>
+        <div>Duration: <input type="number" name="strikeDuration" min="1" value="{{strikeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
 
         <h2>Explode</h2>
         <div>Intensity: <input type="number" name="explodeIntensity" min="0" max="100" value="{{explodeIntensity}}"/></div>
-        <div>Duration: <input type="number" name="explodeDuration" min="1" max="15" value="{{explodeDuration}}"/></div>
+        <div>Duration: <input type="number" name="explodeDuration" min="1" value="{{explodeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
 <!--        <div>
             &lt;!&ndash;suppress HtmlUnknownAttribute &ndash;&gt;
             <input type="checkbox" name="preventCheating" {{preventCheating}}/> Prevent cheating

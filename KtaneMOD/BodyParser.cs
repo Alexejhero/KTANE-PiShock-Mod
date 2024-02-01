@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 
 namespace KtaneMOD;
@@ -9,7 +10,7 @@ public class BodyParser
     {
         Dictionary<string, string> result = new();
 
-        string bodyString = new System.IO.StreamReader(request.InputStream).ReadToEnd();
+        string bodyString = new StreamReader(request.InputStream).ReadToEnd();
         string[] bodyParts = bodyString.Split('&');
 
         foreach (string bodyPart in bodyParts)
