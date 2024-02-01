@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -91,7 +93,7 @@ public static class PiShock
     {
         if (!Plugin.PiShockConfig.IsValid()) return;
 
-        UnityWebRequest request = UnityWebRequest.Post(API_URL, new Dictionary<string, string>
+        Dictionary<string, string> @params = new()
         {
             {"Username", Plugin.PiShockConfig.username},
             {"Apikey", Plugin.PiShockConfig.apiKey},
@@ -101,8 +103,14 @@ public static class PiShock
             {"Op", op.ToString()},
             {"Intensity", intensity.ToString()},
             {"Duration", duration.ToString()},
-        });
+        };
+        string jsonBody = JsonConvert.SerializeObject(@params);
 
+        UnityWebRequest request = new(API_URL, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
         request.SendWebRequest();
     }
 }
