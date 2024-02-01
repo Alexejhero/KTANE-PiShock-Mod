@@ -4,13 +4,15 @@ using System.Net;
 
 namespace KtaneMOD;
 
-public class BodyParser
+public static class BodyParser
 {
     public static Dictionary<string, string> ParseUrlEncoded(HttpListenerRequest request)
     {
         Dictionary<string, string> result = new();
 
         string bodyString = new StreamReader(request.InputStream).ReadToEnd();
+        Plugin.Logger.LogMessage(bodyString);
+
         string[] bodyParts = bodyString.Split('&');
 
         foreach (string bodyPart in bodyParts)

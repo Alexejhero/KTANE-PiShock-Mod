@@ -89,7 +89,7 @@ public static class PiShock
         }
     }
 
-    private static void SendOperation(int op, int intensity, int duration)
+    public static void SendOperation(int op, int intensity, int duration)
     {
         if (!Plugin.PiShockConfig.IsValid()) return;
 
@@ -112,5 +112,7 @@ public static class PiShock
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
         request.SendWebRequest();
+
+        Plugin.Logger.LogFatal($"Sending PiShock operation: {op} {intensity} {duration}");
     }
 }

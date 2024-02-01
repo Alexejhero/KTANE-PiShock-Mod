@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en"> <!--style="background-image: url('https://c.tenor.com/jUMex_rdqPwAAAAd/tenor.gif');"-->
+<head>
+    <meta charset="UTF-8">
+    <title>KTANE PiShock</title>
+
+    <script type="text/javascript">
+        function test() {
+            var operation = document.getElementsByName("operation")[0].value;
+            var intensity = document.getElementsByName("intensity")[0].value;
+            var duration = document.getElementsByName("duration")[0].value;
+
+            fetch("/testpls", {
+                "method": "POST",
+                "body": "operation=" + operation + "&intensity=" + intensity + "&duration=" + duration,
+                "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+            }).then(response => response.text()).then(data => alert(data));
+        }
+    </script>
+
+</head>
+<body style="background: none">
+
+<h1>Keep Talking and Nobody Explodes PiShock Integration</h1>
+
+<h2>Testing</h2>
+<div>Make sure you have your authentication setup on the configuration page</div>
+<br/>
+
+<div>Operation:
+    <select name="operation">
+        <option value="0" selected>Shock</option>
+        <option value="1">Vibrate</option>
+        <option value="2">Beep</option>
+    </select>
+</div>
+<div>Intensity: <input type="number" name="intensity" min="1" max="100" /> (between 1 and 100)</div>
+<div>Duration: <input type="number" name="duration" min="1" /> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
+
+<br/>
+<button onclick="test()">Test</button>
+
+</body>
+</html>

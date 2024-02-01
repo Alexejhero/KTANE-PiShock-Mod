@@ -11,15 +11,25 @@ namespace KtaneMOD;
 
 public sealed class ConfigServer : MonoBehaviour
 {
+    private readonly string _configHtml;
+    private readonly string _testHtml;
+
     private Thread _thread;
 
-    private void Awake()
+    private ConfigServer()
     {
         Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Resources.config.html")!;
         StreamReader reader = new(stream);
-        string html = reader.ReadToEnd();
+        _configHtml = reader.ReadToEnd();
 
-        _thread = new Thread(() => RunWebServer(html));
+        stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Resources.test.html")!;
+        reader = new StreamReader(stream);
+        _testHtml = reader.ReadToEnd();
+    }
+
+    private void Awake()
+    {
+        _thread = new Thread(RunWebServer);
         _thread.Start();
     }
 
@@ -28,7 +38,7 @@ public sealed class ConfigServer : MonoBehaviour
         _thread.Abort();
     }
 
-    private static void RunWebServer(string configHtml)
+    private void RunWebServer()
     {
         HttpListener listener = new();
         listener.Prefixes.Add("http://localhost:6969/");
@@ -42,13 +52,32 @@ public sealed class ConfigServer : MonoBehaviour
 
             try
             {
-                Plugin.Logger.LogWarning(request.Url.AbsolutePath);
-                Plugin.Logger.LogWarning(request.HttpMethod);
+                Plugin.Logger.LogWarning($"{request.HttpMethod} {request.Url.AbsolutePath}");
 
-                if (request.Url.AbsolutePath.Contains("save") && request.HttpMethod == "POST")
+                if (request.Url.AbsolutePath.Contains("testpls") && request.HttpMethod == "POST")
                 {
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
+                    Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
 
+                    PiShock.SendOperation(int.Parse(args["operation"]), int.Parse(args["intensity"]), int.Parse(args["duration"]));
+
+                    response.StatusCode = 200;
+                }
+                else if (request.Url.AbsolutePath.Contains("test") && request.HttpMethod == "GET")
+                {
+                    response.StatusCode = 200;
+                    response.ContentType = "text/html";
+                    response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(_testHtml);
+
+                    response.ContentLength64 = bytes.Length;
+                    response.OutputStream.Write(bytes, 0, bytes.Length);
+                    response.OutputStream.Close();
+                }
+                else if (request.Url.AbsolutePath.Contains("save") && request.HttpMethod == "POST")
+                {
+                    Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
                     Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
 
                     PiShockConfig config = new()
@@ -78,7 +107,7 @@ public sealed class ConfigServer : MonoBehaviour
                 {
                     PiShockConfig config = Plugin.PiShockConfig;
 
-                    string renderedHtml = configHtml
+                    string renderedHtml = _configHtml
                         .Replace("{{username}}", config.username)
                         .Replace("{{apiKey}}", config.apiKey)
                         .Replace("{{code}}", config.code)
