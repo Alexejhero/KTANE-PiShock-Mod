@@ -97,12 +97,6 @@ public sealed class ConfigServer : MonoBehaviour
 
                     response.Redirect("/");
                 }
-                else if (request.Url.AbsolutePath.Contains("test") && request.HttpMethod == "GET")
-                {
-                    PiShock.Test();
-
-                    response.Redirect("/");
-                }
                 else if (request.Url.AbsolutePath == "/" && request.HttpMethod == "GET")
                 {
                     PiShockConfig config = Plugin.PiShockConfig;

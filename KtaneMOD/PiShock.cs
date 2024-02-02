@@ -60,15 +60,6 @@ public static class PiShock
         });
     }
 
-    public static void Test(float delay = 0)
-    {
-        ExecuteWithDelay(delay, () =>
-        {
-            SendOperation(1, 20, 1);
-            SendOperation(2, 50, 1);
-        });
-    }
-
     private static void ExecuteWithDelay(float delay, Action action)
     {
         Plugin.Instance.StartCoroutine(Coroutine());
@@ -85,26 +76,35 @@ public static class PiShock
     {
         if (!Plugin.PiShockConfig.IsValid()) return;
 
-        Dictionary<string, string> @params = new()
+        Plugin.Instance.StartCoroutine(Coroutine());
+        return;
+
+        IEnumerator Coroutine()
         {
-            {"Username", Plugin.PiShockConfig.username},
-            {"Apikey", Plugin.PiShockConfig.apiKey},
-            {"Code", Plugin.PiShockConfig.code},
-            {"Name", "Keep Talking and Nobody Explodes"},
+            Dictionary<string, object> @params = new()
+            {
+                {"Username", Plugin.PiShockConfig.username},
+                {"Apikey", Plugin.PiShockConfig.apiKey},
+                {"Code", Plugin.PiShockConfig.code},
+                {"Name", "Keep Talking and Nobody Explodes"},
 
-            {"Op", op.ToString()},
-            {"Intensity", intensity.ToString()},
-            {"Duration", duration.ToString()},
-        };
-        string jsonBody = JsonConvert.SerializeObject(@params);
+                {"Op", op},
+                {"Intensity", intensity},
+                {"Duration", duration},
+            };
+            string jsonBody = JsonConvert.SerializeObject(@params);
 
-        UnityWebRequest request = new(API_URL, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        request.SendWebRequest();
+            UnityWebRequest request = new(API_URL, "POST");
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
 
-        Plugin.Logger.LogFatal($"Sending PiShock operation: {op} {intensity} {duration}");
+            Plugin.Logger.LogFatal($"Sending PiShock operation: {op} {intensity} {duration}");
+
+            yield return request.SendWebRequest();
+
+            Plugin.Logger.LogFatal(request.responseCode + " " + request.downloadHandler.text);
+        }
     }
 }
