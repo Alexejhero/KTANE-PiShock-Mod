@@ -59,7 +59,7 @@ public sealed class ConfigServer : MonoBehaviour
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
                     Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
 
-                    PiShock.SendOperation(int.Parse(args["operation"]), int.Parse(args["intensity"]), int.Parse(args["duration"]));
+                    PiShock.Self.SendOperation(int.Parse(args["operation"]), int.Parse(args["intensity"]), int.Parse(args["duration"]));
 
                     response.StatusCode = 200;
                 }
@@ -85,11 +85,11 @@ public sealed class ConfigServer : MonoBehaviour
                         username = args["username"],
                         apiKey = args["apiKey"],
                         code = args["code"],
+                        partnerCode = args["partnerCode"],
                         strikeIntensity = int.Parse(args["strikeIntensity"]),
                         strikeDuration = int.Parse(args["strikeDuration"]),
                         explodeIntensity = int.Parse(args["explodeIntensity"]),
                         explodeDuration = int.Parse(args["explodeDuration"]),
-                        // preventCheating = args.TryGetValue("preventCheating", out string value) && value == "on"
                     };
                     config.SaveToPlayerPrefs();
 
@@ -105,12 +105,11 @@ public sealed class ConfigServer : MonoBehaviour
                         .Replace("{{username}}", config.username)
                         .Replace("{{apiKey}}", config.apiKey)
                         .Replace("{{code}}", config.code)
+                        .Replace("{{partnerCode}}", config.partnerCode)
                         .Replace("{{strikeIntensity}}", config.strikeIntensity.ToString())
                         .Replace("{{strikeDuration}}", config.strikeDuration.ToString())
                         .Replace("{{explodeIntensity}}", config.explodeIntensity.ToString())
-                        .Replace("{{explodeDuration}}", config.explodeDuration.ToString())
-                        // .Replace("{{preventCheating}}", config.preventCheating ? "checked" : "")
-                        ;
+                        .Replace("{{explodeDuration}}", config.explodeDuration.ToString());
 
                     response.StatusCode = 200;
                     response.ContentType = "text/html";

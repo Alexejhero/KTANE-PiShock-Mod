@@ -10,7 +10,8 @@ public static class Events
 
     public static void OnStrike()
     {
-        PiShock.Strike();
+        PiShock.Self.Strike();
+        PiShock.Partner.Strike();
     }
 
     public static void OnExplode()
@@ -34,7 +35,7 @@ public static class Events
                 case 2: // long delay, vibration + shock
                     DelayAmount = Random.Range(6f, 8f);
                     float fakeoutDelay = Random.Range(0.3f, 0.9f) * DelayAmount;
-                    PiShock.FakeoutExplode(fakeoutDelay);
+                    PiShock.Self.FakeoutExplode(fakeoutDelay);
                     break;
 
                 case 3: // instant explosion
@@ -43,24 +44,28 @@ public static class Events
             }
 
             Plugin.Logger.LogWarning($"Delayed for {DelayAmount}, branch {branch}");
-            PiShock.Explode(DelayAmount);
+            PiShock.Self.Explode(DelayAmount);
+            PiShock.Partner.Explode(DelayAmount);
         }
         else if (record.Result == GameResultEnum.ExplodedDueToStrikes)
         {
-            PiShock.Explode();
+            PiShock.Self.Explode();
+            PiShock.Partner.Explode();
         }
     }
 
     public static void OnDefuse()
     {
-        PiShock.Defuse();
+        PiShock.Self.Defuse();
+        PiShock.Partner.Defuse();
     }
 
     public static void OnTimerTick(int elapsed, int remaining)
     {
         if (remaining == 15)
         {
-            PiShock.TimeRunningOut();
+            PiShock.Self.TimeRunningOut();
+            PiShock.Partner.TimeRunningOut();
         }
     }
 
@@ -74,7 +79,7 @@ public static class Events
         {
             while (_alarmClockCoroutine != null)
             {
-                PiShock.AlarmClockBeep();
+                PiShock.Self.AlarmClockBeep();
                 yield return new WaitForSeconds(0.5f);
             }
         }

@@ -8,11 +8,17 @@ using UnityEngine.Networking;
 
 namespace KtaneMOD;
 
-public static class PiShock
+public sealed class PiShock
 {
+    public static readonly PiShock Self = new(false);
+    public static readonly PiShock Partner = new(true);
+
+    private readonly bool _isPartner;
+    private PiShock(bool partner) => _isPartner = partner;
+
     private const string API_URL = "https://do.pishock.com/api/apioperate/";
 
-    public static void Strike(float delay = 0)
+    public void Strike(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
@@ -20,7 +26,7 @@ public static class PiShock
         });
     }
 
-    public static void Explode(float delay = 0)
+    public void Explode(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
@@ -28,15 +34,15 @@ public static class PiShock
         });
     }
 
-    public static void FakeoutExplode(float delay = 0)
+    public void FakeoutExplode(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(1, 80, 300);
+            SendOperation(1, 100, 300);
         });
     }
 
-    public static void Defuse(float delay = 0)
+    public void Defuse(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
@@ -44,7 +50,7 @@ public static class PiShock
         });
     }
 
-    public static void TimeRunningOut(float delay = 0)
+    public void TimeRunningOut(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
@@ -52,7 +58,7 @@ public static class PiShock
         });
     }
 
-    public static void AlarmClockBeep(float delay = 0)
+    public void AlarmClockBeep(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {
@@ -60,19 +66,7 @@ public static class PiShock
         });
     }
 
-    private static void ExecuteWithDelay(float delay, Action action)
-    {
-        Plugin.Instance.StartCoroutine(Coroutine());
-        return;
-
-        IEnumerator Coroutine()
-        {
-            yield return new WaitForSeconds(delay);
-            action();
-        }
-    }
-
-    public static void SendOperation(int op, int intensity, int duration)
+    public void SendOperation(int op, int intensity, int duration)
     {
         if (!Plugin.PiShockConfig.IsValid()) return;
 
@@ -85,7 +79,7 @@ public static class PiShock
             {
                 {"Username", Plugin.PiShockConfig.username},
                 {"Apikey", Plugin.PiShockConfig.apiKey},
-                {"Code", Plugin.PiShockConfig.code},
+                {"Code", !_isPartner ? Plugin.PiShockConfig.code : Plugin.PiShockConfig.partnerCode},
                 {"Name", "Keep Talking and Nobody Explodes"},
 
                 {"Op", op},
@@ -105,6 +99,18 @@ public static class PiShock
             yield return request.SendWebRequest();
 
             Plugin.Logger.LogFatal(request.responseCode + " " + request.downloadHandler.text);
+        }
+    }
+
+    private static void ExecuteWithDelay(float delay, Action action)
+    {
+        Plugin.Instance.StartCoroutine(Coroutine());
+        return;
+
+        IEnumerator Coroutine()
+        {
+            yield return new WaitForSeconds(delay);
+            action();
         }
     }
 }
