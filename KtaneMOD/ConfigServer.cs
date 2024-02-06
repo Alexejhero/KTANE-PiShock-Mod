@@ -79,7 +79,6 @@ public sealed class ConfigServer : MonoBehaviour
                 else if (request.Url.AbsolutePath.Contains("testpls") && request.HttpMethod == "POST")
                 {
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
-                    Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
 
                     PiShock.Self.SendOperation(int.Parse(args["operation"]), int.Parse(args["intensity"]), int.Parse(args["duration"]));
 
@@ -100,7 +99,6 @@ public sealed class ConfigServer : MonoBehaviour
                 else if (request.Url.AbsolutePath.Contains("save") && request.HttpMethod == "POST")
                 {
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
-                    Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
 
                     PiShockConfig config = new()
                     {
