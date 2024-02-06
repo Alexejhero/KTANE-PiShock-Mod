@@ -5,7 +5,7 @@ namespace KtaneMOD;
 
 public static class RandomTargets
 {
-    public static IEnumerable<PiShock> GetShockTargets()
+    public static List<PiShock> GetShockTargets()
     {
         float rand = Random.Range(0f, 1f);
         return rand switch
