@@ -8,6 +8,9 @@ public static class RandomTargets
     public static List<PiShock> GetShockTargets()
     {
         float rand = Random.Range(0f, 1f);
+
+        Plugin.Logger.LogWarning("RNGesus says: " + rand);
+
         return rand switch
         {
             < 0.2f => [PiShock.Self],
