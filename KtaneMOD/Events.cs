@@ -10,8 +10,7 @@ public static class Events
 
     public static void OnStrike()
     {
-        PiShock.Self.Strike();
-        PiShock.Partner.Strike();
+        RandomTargets.GetShockTargets().Strike();
     }
 
     public static void OnExplode()
@@ -44,13 +43,11 @@ public static class Events
             }
 
             Plugin.Logger.LogWarning($"Delayed for {DelayAmount}, branch {branch}");
-            PiShock.Self.Explode(DelayAmount);
-            PiShock.Partner.Explode(DelayAmount);
+            RandomTargets.GetShockTargets().Explode();
         }
         else if (record.Result == GameResultEnum.ExplodedDueToStrikes)
         {
-            PiShock.Self.Explode();
-            PiShock.Partner.Explode();
+            RandomTargets.GetShockTargets().Explode();
         }
     }
 

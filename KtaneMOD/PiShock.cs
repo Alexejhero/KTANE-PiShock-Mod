@@ -103,7 +103,7 @@ public sealed class PiShock
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            Plugin.Logger.LogFatal($"Sending PiShock operation: {op} {intensity} {duration}");
+            Plugin.Logger.LogFatal($"Sending PiShock operation: {(!_isPartner ? "self" : "partner")} {op} {intensity} {duration}");
 
             yield return request.SendWebRequest();
 
