@@ -43,7 +43,7 @@ public static class Events
             }
 
             Plugin.Logger.LogWarning($"Delayed for {DelayAmount}, branch {branch}");
-            RandomTargets.GetShockTargets().Explode();
+            RandomTargets.GetShockTargets().Explode(DelayAmount - 0.75f);
         }
         else if (record.Result == GameResultEnum.ExplodedDueToStrikes)
         {

@@ -97,6 +97,7 @@ public sealed class ConfigServer : MonoBehaviour
                         strikeDuration = int.Parse(args["strikeDuration"]),
                         explodeIntensity = int.Parse(args["explodeIntensity"]),
                         explodeDuration = int.Parse(args["explodeDuration"]),
+                        shockBoth = args.TryGetValue("shockBoth", out string value) && value == "on"
                     };
                     config.SaveToPlayerPrefs();
 
@@ -116,7 +117,8 @@ public sealed class ConfigServer : MonoBehaviour
                         .Replace("{{strikeIntensity}}", config.strikeIntensity.ToString())
                         .Replace("{{strikeDuration}}", config.strikeDuration.ToString())
                         .Replace("{{explodeIntensity}}", config.explodeIntensity.ToString())
-                        .Replace("{{explodeDuration}}", config.explodeDuration.ToString());
+                        .Replace("{{explodeDuration}}", config.explodeDuration.ToString())
+                        .Replace("{{shockBoth}}", config.shockBoth ? "checked" : "");
 
                     response.StatusCode = 200;
                     response.ContentType = "text/html";

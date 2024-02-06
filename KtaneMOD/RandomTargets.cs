@@ -7,6 +7,12 @@ public static class RandomTargets
 {
     public static List<PiShock> GetShockTargets()
     {
+        if (Plugin.PiShockConfig.shockBoth)
+        {
+            Plugin.Logger.LogWarning("Fair punishment");
+            return [PiShock.Self, PiShock.Partner];
+        }
+
         float rand = Random.Range(0f, 1f);
 
         Plugin.Logger.LogWarning("RNGesus says: " + rand);
