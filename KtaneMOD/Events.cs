@@ -56,14 +56,9 @@ public static class Events
         PiShock.Defuse();
     }
 
-    public static void OnReturnToOffice()
-    {
-        PiShock.Explode();
-    }
-
     public static void OnTimerTick(int elapsed, int remaining)
     {
-        if (remaining <= 15)
+        if (remaining == 15)
         {
             PiShock.TimeRunningOut();
         }
