@@ -77,8 +77,6 @@ public sealed class PiShock
 
     public void SendOperation(int op, int intensity, int duration)
     {
-        if (!Plugin.PiShockConfig.IsValid()) return;
-
         Plugin.Instance.StartCoroutine(Coroutine());
         return;
 

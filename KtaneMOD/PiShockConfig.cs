@@ -17,11 +17,6 @@ public struct PiShockConfig
 
     public bool shockBoth;
 
-    public bool IsValid()
-    {
-        return !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(code);
-    }
-
     public void SaveToPlayerPrefs()
     {
         PlayerPrefs.SetString("shocker_pishock_username", username);
