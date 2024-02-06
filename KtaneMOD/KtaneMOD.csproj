@@ -14,11 +14,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" />
         <PackageReference Include="BepInEx.Core" Version="5.4.21" />
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="$(KTANE)/ktane_Data/Managed/*" Private="false" />
+        <Reference Include="$(KTANE)/ktane_Data/Managed/*" Private="false" Publicize="true" />
     </ItemGroup>
 
     <ItemGroup>

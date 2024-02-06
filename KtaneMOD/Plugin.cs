@@ -19,6 +19,7 @@ public sealed class Plugin : BaseUnityPlugin
         Instance = this;
 
         gameObject.AddComponent<ConfigServer>();
+        gameObject.AddComponent<NoCheating>();
 
         PiShockConfig = PiShockConfig.LoadFromPlayerPrefs();
 
