@@ -46,7 +46,7 @@ public sealed class PiShock
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(1, 20, 500);
+            SendOperation(1, 100, 500);
         });
     }
 
@@ -62,7 +62,16 @@ public sealed class PiShock
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(1, 20, 150);
+            SendOperation(1, 40, 150);
+        });
+    }
+
+    public void Test(float delay = 0)
+    {
+        ExecuteWithDelay(delay, () =>
+        {
+            SendOperation(1, 20, 1);
+            SendOperation(2, 50, 1);
         });
     }
 

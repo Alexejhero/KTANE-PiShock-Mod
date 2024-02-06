@@ -54,7 +54,14 @@ public sealed class ConfigServer : MonoBehaviour
             {
                 Plugin.Logger.LogWarning($"{request.HttpMethod} {request.Url.AbsolutePath}");
 
-                if (request.Url.AbsolutePath.Contains("testpls") && request.HttpMethod == "POST")
+                if (request.Url.AbsolutePath.Contains("simpletest") && request.HttpMethod == "GET")
+                {
+                    PiShock.Self.Test();
+                    PiShock.Partner.Test();
+
+                    response.Redirect("/");
+                }
+                else if (request.Url.AbsolutePath.Contains("testpls") && request.HttpMethod == "POST")
                 {
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
                     Plugin.Logger.LogWarning(string.Join(",", args.Select(a => $"{a.Key}={a.Value}").ToArray()));
