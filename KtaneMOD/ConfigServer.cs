@@ -52,6 +52,21 @@ public sealed class ConfigServer : MonoBehaviour
 
             try
             {
+                if (request.Url.AbsolutePath.Contains("amiplaying") && request.HttpMethod == "GET")
+                {
+                    response.StatusCode = 200;
+                    response.ContentType = "text/plain";
+                    response.ContentEncoding = System.Text.Encoding.UTF8;
+
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(NoCheating.IsPlaying ? "yes" : "no");
+
+                    response.ContentLength64 = bytes.Length;
+                    response.OutputStream.Write(bytes, 0, bytes.Length);
+                    response.OutputStream.Close();
+
+                    continue;
+                }
+
                 Plugin.Logger.LogWarning($"{request.HttpMethod} {request.Url.AbsolutePath}");
 
                 if (request.Url.AbsolutePath.Contains("simpletest") && request.HttpMethod == "GET")

@@ -6,13 +6,14 @@ using Assets.Scripts.DossierMenu;
 using HarmonyLib;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace KtaneMOD;
 
 [HarmonyPatch]
 public sealed class NoCheating : MonoBehaviour
 {
-    public static bool CanQuit => SceneManager.Instance.CurrentState != SceneManager.State.Gameplay;
+    public static bool IsPlaying => SceneManager.Instance && SceneManager.Instance.CurrentState == SceneManager.State.Gameplay;
 
     [HarmonyPatch(typeof(GameplayMenuPage), nameof(GameplayMenuPage.ReturnToSetupRoom))]
     [HarmonyPrefix]
@@ -49,13 +50,13 @@ public sealed class NoCheating : MonoBehaviour
         [HarmonyPrefix, UsedImplicitly]
         public static bool OnApplicationQuitPatch()
         {
-            return CanQuit;
+            return !IsPlaying;
         }
     }
 
     private void OnApplicationQuit()
     {
-        if (!CanQuit)
+        if (IsPlaying)
         {
             Application.CancelQuit();
         }

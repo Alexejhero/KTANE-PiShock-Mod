@@ -3,40 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>KTANE PiShock</title>
+
+    <script type="text/javascript">
+        function test() {
+            fetch("/amiplaying").then(response => response.text()).then(data => {
+                if (data.includes("yes")) {
+                    document.getElementById("stop").style.display = "block";
+                    document.getElementById("main").style.display = "none";
+                } else {
+                    document.getElementById("stop").style.display = "none";
+                    document.getElementById("main").style.display = "block";
+                }
+            });
+        }
+
+        setInterval(test, 5000);
+    </script>
+
 </head>
 <body style="background: white">
 
 <h1>Keep Talking and Nobody Explodes PiShock Integration</h1>
 
-<form action="/save" method="post">
-    <h2>Authentication</h2>
-    <div>Username: <input type="password" name="username" value="{{username}}"/></div>
-    <div>API Key: <input type="password" name="apiKey" value="{{apiKey}}"/> (this is your PiShock API key not your Twitch API key dumbass)</div>
-    <div>YOUR PiShock Code: <input type="password" name="code" value="{{code}}"/></div>
-    <div>PARTNER'S PiShock Code: <input type="password" name="partnerCode" value="{{partnerCode}}"/> (a pishock code of the other person playing with you, make sure it's a different one than the one that they have for themselves, because there is a limit of one account per code)</div>
+<main id="main">
+    <form action="/save" method="post">
+        <h2>Authentication</h2>
+        <div>Username: <input type="password" name="username" value="{{username}}"/></div>
+        <div>API Key: <input type="password" name="apiKey" value="{{apiKey}}"/> (this is your PiShock API key not your Twitch API key dumbass)</div>
+        <div>YOUR PiShock Code: <input type="password" name="code" value="{{code}}"/></div>
+        <div>PARTNER'S PiShock Code: <input type="password" name="partnerCode" value="{{partnerCode}}"/> (a pishock code of the other person playing with you, make sure it's a different one than the one that they have for themselves, because there is a limit of one account per code)</div>
 
-    <h2>Strike</h2>
-    <div>Intensity: <input type="number" name="strikeIntensity" min="1" max="100" value="{{strikeIntensity}}"/> (between 1 and 100)</div>
-    <div>Duration: <input type="number" name="strikeDuration" min="1" value="{{strikeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
+        <h2>Strike</h2>
+        <div>Intensity: <input type="number" name="strikeIntensity" min="1" max="100" value="{{strikeIntensity}}"/> (between 1 and 100)</div>
+        <div>Duration: <input type="number" name="strikeDuration" min="1" value="{{strikeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
 
-    <h2>Explode</h2>
-    <div>Intensity: <input type="number" name="explodeIntensity" min="1" max="100" value="{{explodeIntensity}}"/> (between 1 and 100)</div>
-    <div>Duration: <input type="number" name="explodeDuration" min="1" value="{{explodeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
+        <h2>Explode</h2>
+        <div>Intensity: <input type="number" name="explodeIntensity" min="1" max="100" value="{{explodeIntensity}}"/> (between 1 and 100)</div>
+        <div>Duration: <input type="number" name="explodeDuration" min="1" value="{{explodeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
 
-    <br/>
-    <div>
-        <!--suppress HtmlUnknownAttribute-->
-        <input type="checkbox" name="shockBoth" {{shockBoth}}/> Fair punishment (ALWAYS shock both players)
-    </div>
+        <br/>
+        <div>
+            <!--suppress HtmlUnknownAttribute-->
+            <input type="checkbox" name="shockBoth" {{shockBoth}}/> Fair punishment (ALWAYS shock both players)
+        </div>
 
-    <br/>
-    <br/>
-    <button type="submit">Save</button>
-</form>
+        <br/>
+        <br/>
+        <button type="submit">Save</button>
+    </form>
 
-<form action="/simpletest" method="get">
-    <div><button type="submit">Test</button> (PRESS SAVE BEFORE TESTING OTHERWISE IT WONT WORK)</div>
-</form>
+    <form action="/simpletest" method="get">
+        <div><button type="submit">Test</button> (PRESS SAVE BEFORE TESTING OTHERWISE IT WONT WORK)</div>
+    </form>
+</main>
+
+<div id="stop" style="display: none;">You cannot change this while a game is in progress.</div>
 
 <div style="position: fixed;">
     <br/>
