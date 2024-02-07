@@ -34,14 +34,6 @@ public sealed class PiShock
         });
     }
 
-    public void FakeoutExplode(float delay = 0)
-    {
-        ExecuteWithDelay(delay, () =>
-        {
-            SendOperation(1, 100, 300);
-        });
-    }
-
     public void Defuse(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
@@ -62,7 +54,7 @@ public sealed class PiShock
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(1, 40, 150);
+            SendOperation(1, 100, 100);
         });
     }
 
