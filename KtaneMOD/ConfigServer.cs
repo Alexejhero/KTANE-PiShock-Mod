@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -58,7 +57,7 @@ public sealed class ConfigServer : MonoBehaviour
                     response.ContentType = "text/plain";
                     response.ContentEncoding = System.Text.Encoding.UTF8;
 
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(NoCheating.IsPlaying ? "yes" : "no");
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(Events.IsInGame ? "yes" : "no");
 
                     response.ContentLength64 = bytes.Length;
                     response.OutputStream.Write(bytes, 0, bytes.Length);

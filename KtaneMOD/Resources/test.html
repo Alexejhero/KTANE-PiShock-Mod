@@ -6,9 +6,9 @@
 
     <script type="text/javascript">
         function test() {
-            var operation = document.getElementsByName("operation")[0].value;
-            var intensity = document.getElementsByName("intensity")[0].value;
-            var duration = document.getElementsByName("duration")[0].value;
+            const operation = document.getElementsByName("operation")[0].value;
+            const intensity = document.getElementsByName("intensity")[0].value;
+            const duration = document.getElementsByName("duration")[0].value;
 
             fetch("/testpls", {
                 "method": "POST",

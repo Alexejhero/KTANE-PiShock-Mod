@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using Assets.Scripts.Records;
+﻿using Assets.Scripts.Records;
 using UnityEngine;
 
 namespace KtaneMOD;
 
 public static class Events
 {
+    public static bool IsInGame => SceneManager.Instance && SceneManager.Instance.CurrentState == SceneManager.State.Gameplay;
+
     public static float DelayAmount { get; set; }
 
     public static void OnStrike()

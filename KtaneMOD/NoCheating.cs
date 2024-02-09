@@ -6,27 +6,26 @@ using Assets.Scripts.DossierMenu;
 using HarmonyLib;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace KtaneMOD;
 
 [HarmonyPatch]
 public sealed class NoCheating : MonoBehaviour
 {
-    public static bool IsPlaying => SceneManager.Instance && SceneManager.Instance.CurrentState == SceneManager.State.Gameplay;
+    private static bool ShouldPreventClose => OnlineConfig.NoCheating && Events.IsInGame;
 
     [HarmonyPatch(typeof(GameplayMenuPage), nameof(GameplayMenuPage.ReturnToSetupRoom))]
     [HarmonyPrefix]
     private static bool ReturnToSetupRoomPatch()
     {
-        return false;
+        return !OnlineConfig.NoCheating;
     }
 
     [HarmonyPatch(typeof(MenuPage), nameof(MenuPage.RefreshLayout))]
     [HarmonyPrefix]
     private static void RefreshLayoutPatch(MenuPage __instance)
     {
-        if (__instance is GameplayMenuPage gmp) gmp.returnToSetupEntry.IsHidden = true;
+        if (OnlineConfig.NoCheating && __instance is GameplayMenuPage gmp) gmp.returnToSetupEntry.IsHidden = true;
     }
 
     [HarmonyPatch]
@@ -50,13 +49,13 @@ public sealed class NoCheating : MonoBehaviour
         [HarmonyPrefix, UsedImplicitly]
         public static bool OnApplicationQuitPatch()
         {
-            return !IsPlaying;
+            return !ShouldPreventClose;
         }
     }
 
     private void OnApplicationQuit()
     {
-        if (IsPlaying)
+        if (ShouldPreventClose)
         {
             Application.CancelQuit();
         }
