@@ -12,7 +12,7 @@ internal static class ExplosionDelay
     [HarmonyPrefix]
     private static bool DelayEndGameResults(PostGameState __instance, bool success)
     {
-        if (Events.DelayAmount <= 0) return true;
+        if (ExplosionHandler.DelayAmount <= 0) return true;
 
         Plugin.Instance.StartCoroutine(CoEnterState());
 
@@ -20,8 +20,8 @@ internal static class ExplosionDelay
 
         IEnumerator CoEnterState()
         {
-            yield return new WaitForSeconds(Events.DelayAmount);
-            Events.DelayAmount = 0;
+            yield return new WaitForSeconds(ExplosionHandler.DelayAmount);
+            ExplosionHandler.DelayAmount = 0;
 
             __instance.EnterState(success);
         }
@@ -31,8 +31,8 @@ internal static class ExplosionDelay
     [HarmonyPrefix]
     private static void DelayBombExplosionSound(string sType, ref float delaySoundTime)
     {
-        if (Events.DelayAmount <= 0) return;
+        if (ExplosionHandler.DelayAmount <= 0) return;
 
-        if (sType == "bomb_explode") delaySoundTime = Events.DelayAmount;
+        if (sType == "bomb_explode") delaySoundTime = ExplosionHandler.DelayAmount;
     }
 }

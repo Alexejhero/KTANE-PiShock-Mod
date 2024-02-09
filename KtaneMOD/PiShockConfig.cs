@@ -44,7 +44,7 @@ public struct PiShockConfig
             strikeDuration = PlayerPrefs.GetInt("shocker_strike_duration", 1),
             explodeIntensity = PlayerPrefs.GetInt("shocker_explode_intensity", 30),
             explodeDuration = PlayerPrefs.GetInt("shocker_explode_duration", 1),
-            shockBoth = PlayerPrefs.GetInt("shocker_shock_both", 0) == 1
+            shockBoth = PlayerPrefs.GetInt("shocker_shock_both", 1) == 1
         };
     }
 }

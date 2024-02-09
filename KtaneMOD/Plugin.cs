@@ -9,6 +9,8 @@ namespace KtaneMOD;
 [BepInPlugin("KtaneMOD", "KtaneMOD", "1.0.0"), HarmonyPatch]
 public sealed class Plugin : BaseUnityPlugin
 {
+    public static bool IsInGame => SceneManager.Instance && SceneManager.Instance.CurrentState == SceneManager.State.Gameplay;
+
     public static Plugin Instance { get; private set; }
 
     public new static ManualLogSource Logger { get; } = BepInEx.Logging.Logger.CreateLogSource("KtaneMOD");
@@ -24,20 +26,5 @@ public sealed class Plugin : BaseUnityPlugin
         PiShockConfig = PiShockConfig.LoadFromPlayerPrefs();
 
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
-
-        BombEvents.OnBombDetonated += Events.OnExplode;
-        BombEvents.OnBombSolved += Events.OnDefuse;
-
-        EnvironmentEvents.OnAlarmClockChange += Events.OnAlarmClockChange;
-    }
-
-    [HarmonyPatch(typeof(Bomb), nameof(Bomb.OnStrike))]
-    [HarmonyPrefix]
-    private static void OnStrikePatch(Bomb __instance)
-    {
-        if (__instance.NumStrikes != __instance.NumStrikesToLose - 1)
-        {
-            Events.OnStrike();
-        }
     }
 }

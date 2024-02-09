@@ -42,15 +42,7 @@ public sealed class PiShock
         });
     }
 
-    public void TimeRunningOut(float delay = 0)
-    {
-        ExecuteWithDelay(delay, () =>
-        {
-            SendOperation(2, 50, 300);
-        });
-    }
-
-    public void AlarmClockBeep(float delay = 0)
+    public void AlarmClockOn(float delay = 0)
     {
         ExecuteWithDelay(delay, () =>
         {

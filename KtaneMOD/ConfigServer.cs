@@ -57,7 +57,7 @@ public sealed class ConfigServer : MonoBehaviour
                     response.ContentType = "text/plain";
                     response.ContentEncoding = System.Text.Encoding.UTF8;
 
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(Events.IsInGame ? "yes" : "no");
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(Plugin.IsInGame ? "yes" : "no");
 
                     response.ContentLength64 = bytes.Length;
                     response.OutputStream.Write(bytes, 0, bytes.Length);

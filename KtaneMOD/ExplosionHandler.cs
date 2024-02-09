@@ -1,20 +1,22 @@
 ﻿using Assets.Scripts.Records;
+using Events;
+using HarmonyLib;
 using UnityEngine;
 
 namespace KtaneMOD;
 
-public static class Events
+[HarmonyPatch]
+public static class ExplosionHandler
 {
-    public static bool IsInGame => SceneManager.Instance && SceneManager.Instance.CurrentState == SceneManager.State.Gameplay;
+    static ExplosionHandler() // ran by Harmony
+    {
+        BombEvents.OnBombDetonated += OnExplode;
+        BombEvents.OnBombSolved += OnDefuse;
+    }
 
     public static float DelayAmount { get; set; }
 
-    public static void OnStrike()
-    {
-        RandomTargets.GetShockTargets().Strike();
-    }
-
-    public static void OnExplode()
+    private static void OnExplode()
     {
         GameRecord record = RecordManager.Instance.GetCurrentRecord();
 
@@ -30,14 +32,19 @@ public static class Events
         }
     }
 
-    public static void OnDefuse()
+    private static void OnDefuse()
     {
         PiShock.Self.Defuse();
         PiShock.Partner.Defuse();
     }
 
-    public static void OnAlarmClockChange(bool on)
+    [HarmonyPatch(typeof(Bomb), nameof(Bomb.OnStrike))]
+    [HarmonyPrefix]
+    private static void OnStrikePatch(Bomb __instance)
     {
-        if (on) PiShock.Self.AlarmClockBeep();
+        if (__instance.NumStrikes != __instance.NumStrikesToLose - 1)
+        {
+            RandomTargets.GetShockTargets().Strike();
+        }
     }
 }

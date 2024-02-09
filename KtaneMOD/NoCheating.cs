@@ -12,7 +12,7 @@ namespace KtaneMOD;
 [HarmonyPatch]
 public sealed class NoCheating : MonoBehaviour
 {
-    private static bool ShouldPreventClose => OnlineConfig.NoCheating && Events.IsInGame;
+    private static bool ShouldPreventClose => OnlineConfig.NoCheating && Plugin.IsInGame;
 
     [HarmonyPatch(typeof(GameplayMenuPage), nameof(GameplayMenuPage.ReturnToSetupRoom))]
     [HarmonyPrefix]
