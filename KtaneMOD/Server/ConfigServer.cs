@@ -4,9 +4,10 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
+using KtaneMOD.Config;
 using UnityEngine;
 
-namespace KtaneMOD;
+namespace KtaneMOD.Server;
 
 public sealed class ConfigServer : MonoBehaviour
 {
@@ -99,7 +100,7 @@ public sealed class ConfigServer : MonoBehaviour
                 {
                     Dictionary<string, string> args = BodyParser.ParseUrlEncoded(request);
 
-                    PiShockConfig config = new()
+                    ModConfig config = new()
                     {
                         username = args["username"],
                         apiKey = args["apiKey"],
@@ -113,13 +114,13 @@ public sealed class ConfigServer : MonoBehaviour
                     };
                     config.SaveToPlayerPrefs();
 
-                    Plugin.PiShockConfig = config;
+                    Plugin.ModConfig = config;
 
                     response.Redirect("/");
                 }
                 else if (request.Url.AbsolutePath == "/" && request.HttpMethod == "GET")
                 {
-                    PiShockConfig config = Plugin.PiShockConfig;
+                    ModConfig config = Plugin.ModConfig;
 
                     string renderedHtml = _configHtml
                         .Replace("{{username}}", config.username)

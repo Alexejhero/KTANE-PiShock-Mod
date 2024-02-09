@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace KtaneMOD;
+namespace KtaneMOD.Config;
 
-public struct PiShockConfig
+public struct ModConfig
 {
     public string username;
     public string apiKey;
@@ -32,9 +32,9 @@ public struct PiShockConfig
         PlayerPrefs.Save();
     }
 
-    public static PiShockConfig LoadFromPlayerPrefs()
+    public static ModConfig LoadFromPlayerPrefs()
     {
-        return new PiShockConfig
+        return new ModConfig
         {
             username = PlayerPrefs.GetString("shocker_pishock_username"),
             apiKey = PlayerPrefs.GetString("shocker_pishock_apikey"),

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace KtaneMOD;
+namespace KtaneMOD.Config;
 
 public static class RandomTargets
 {
     public static List<PiShock> GetShockTargets()
     {
-        if (Plugin.PiShockConfig.shockBoth)
+        if (Plugin.ModConfig.shockBoth)
         {
             Plugin.Logger.LogWarning("Fair punishment");
             return [PiShock.Self, PiShock.Partner];

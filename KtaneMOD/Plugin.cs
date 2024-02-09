@@ -3,6 +3,8 @@ using BepInEx;
 using BepInEx.Logging;
 using Events;
 using HarmonyLib;
+using KtaneMOD.Config;
+using KtaneMOD.Server;
 
 namespace KtaneMOD;
 
@@ -14,7 +16,7 @@ public sealed class Plugin : BaseUnityPlugin
     public static Plugin Instance { get; private set; }
 
     public new static ManualLogSource Logger { get; } = BepInEx.Logging.Logger.CreateLogSource("KtaneMOD");
-    public static PiShockConfig PiShockConfig { get; set; }
+    public static ModConfig ModConfig { get; set; }
 
     private void Awake()
     {
@@ -23,7 +25,7 @@ public sealed class Plugin : BaseUnityPlugin
         gameObject.AddComponent<ConfigServer>();
         gameObject.AddComponent<NoCheating>();
 
-        PiShockConfig = PiShockConfig.LoadFromPlayerPrefs();
+        ModConfig = ModConfig.LoadFromPlayerPrefs();
 
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
     }

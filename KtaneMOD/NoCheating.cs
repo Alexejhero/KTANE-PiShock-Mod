@@ -5,6 +5,7 @@ using System.Reflection;
 using Assets.Scripts.DossierMenu;
 using HarmonyLib;
 using JetBrains.Annotations;
+using KtaneMOD.Config;
 using UnityEngine;
 
 namespace KtaneMOD;

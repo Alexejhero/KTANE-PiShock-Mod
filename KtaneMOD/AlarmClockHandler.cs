@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Assets.Scripts.Props;
 using HarmonyLib;
+using KtaneMOD.Config;
 using UnityEngine;
 
 namespace KtaneMOD;

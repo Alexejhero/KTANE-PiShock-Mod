@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace KtaneMOD;
+namespace KtaneMOD.Server;
 
 public static class BodyParser
 {

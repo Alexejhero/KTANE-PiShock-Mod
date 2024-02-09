@@ -22,7 +22,7 @@ public sealed class PiShock
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(0, Plugin.PiShockConfig.strikeIntensity, Plugin.PiShockConfig.strikeDuration);
+            SendOperation(0, Plugin.ModConfig.strikeIntensity, Plugin.ModConfig.strikeDuration);
         });
     }
 
@@ -30,7 +30,7 @@ public sealed class PiShock
     {
         ExecuteWithDelay(delay, () =>
         {
-            SendOperation(0, Plugin.PiShockConfig.explodeIntensity, Plugin.PiShockConfig.explodeDuration);
+            SendOperation(0, Plugin.ModConfig.explodeIntensity, Plugin.ModConfig.explodeDuration);
         });
     }
 
@@ -68,9 +68,9 @@ public sealed class PiShock
         {
             Dictionary<string, object> @params = new()
             {
-                {"Username", Plugin.PiShockConfig.username},
-                {"Apikey", Plugin.PiShockConfig.apiKey},
-                {"Code", !_isPartner ? Plugin.PiShockConfig.code : Plugin.PiShockConfig.partnerCode},
+                {"Username", Plugin.ModConfig.username},
+                {"Apikey", Plugin.ModConfig.apiKey},
+                {"Code", !_isPartner ? Plugin.ModConfig.code : Plugin.ModConfig.partnerCode},
                 {"Name", "Keep Talking and Nobody Explodes"},
 
                 {"Op", op},

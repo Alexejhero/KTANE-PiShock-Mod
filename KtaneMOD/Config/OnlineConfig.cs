@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace KtaneMOD;
+namespace KtaneMOD.Config;
 
 [HarmonyPatch]
 public static class OnlineConfig
@@ -11,6 +11,7 @@ public static class OnlineConfig
     private const string GIST_URL = "https://gist.githubusercontent.com/Alexejhero/161af5ec58e50694b6a4c7b4b1e6055b/raw";
 
     public static bool NoCheating { get; private set; }
+    public static float PresendOffset { get; private set; }
 
     private static IEnumerator CoRefresh()
     {
