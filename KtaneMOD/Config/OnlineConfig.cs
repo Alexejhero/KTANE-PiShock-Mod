@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using HarmonyLib;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,10 +9,25 @@ namespace KtaneMOD.Config;
 [HarmonyPatch]
 public static class OnlineConfig
 {
+    static OnlineConfig() // ran by Harmony
+    {
+        ResetToDefault();
+    }
+
     private const string GIST_URL = "https://gist.githubusercontent.com/Alexejhero/161af5ec58e50694b6a4c7b4b1e6055b/raw";
 
     public static bool NoCheating { get; private set; }
     public static float PresendOffset { get; private set; }
+    public static float MinExplodeDelay { get; private set; }
+    public static float MaxExplodeDelay { get; private set; }
+
+    private static void ResetToDefault()
+    {
+        NoCheating = false;
+        PresendOffset = 0.75f;
+        MinExplodeDelay = 0f;
+        MaxExplodeDelay = 5f;
+    }
 
     private static IEnumerator CoRefresh()
     {
@@ -21,13 +37,24 @@ public static class OnlineConfig
         if (www.responseCode != 200)
         {
             Plugin.Logger.LogError("Failed to fetch online config: " + www.error);
-            NoCheating = false;
+            ResetToDefault();
             yield break;
         }
 
-        NoCheating = www.downloadHandler.text.Contains("no-cheating");
+        var x = JsonConvert.DeserializeAnonymousType(www.downloadHandler.text, new
+        {
+            no_cheating = false,
+            presend_offset = 0.75f,
+            min_explode_delay = 0f,
+            max_explode_delay = 5f
+        });
 
-        Plugin.Logger.LogMessage($"Online config fetched: NoCheating is {NoCheating}");
+        NoCheating = x.no_cheating;
+        PresendOffset = x.presend_offset;
+        MinExplodeDelay = x.min_explode_delay;
+        MaxExplodeDelay = x.max_explode_delay;
+
+        Plugin.Logger.LogMessage($"Online config fetched: {NoCheating} {PresendOffset} {MinExplodeDelay} {MaxExplodeDelay}");
     }
 
     [HarmonyPatch(typeof(GameplayState), nameof(GameplayState.EnterState))]
