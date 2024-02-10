@@ -18,11 +18,11 @@ public sealed class ConfigServer : MonoBehaviour
 
     private ConfigServer()
     {
-        Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Resources.config.html")!;
+        Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Server.Resources.config.html")!;
         StreamReader reader = new(stream);
         _configHtml = reader.ReadToEnd();
 
-        stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Resources.test.html")!;
+        stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("KtaneMOD.Server.Resources.test.html")!;
         reader = new StreamReader(stream);
         _testHtml = reader.ReadToEnd();
     }
