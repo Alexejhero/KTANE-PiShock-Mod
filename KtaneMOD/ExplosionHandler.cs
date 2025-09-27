@@ -23,9 +23,9 @@ public static class ExplosionHandler
 
         if (record.Result == GameResultEnum.ExplodedDueToTime || record.Result == GameResultEnum.ExplodedDueToStrikes && record.TimeRemaining < 15f)
         {
-            DelayAmount = Random.Range(OnlineConfig.MinExplodeDelay + OnlineConfig.PresendOffset, OnlineConfig.MaxExplodeDelay + OnlineConfig.PresendOffset);
+            DelayAmount = Random.Range(Plugin.ModConfig.minExplodeDelay + Plugin.ModConfig.presendOffset, Plugin.ModConfig.maxExplodeDelay + Plugin.ModConfig.presendOffset);
             Plugin.Logger.LogWarning($"Delayed for {DelayAmount}");
-            RandomTargets.GetShockTargets().Explode(DelayAmount - OnlineConfig.PresendOffset);
+            RandomTargets.GetShockTargets().Explode(DelayAmount - Plugin.ModConfig.presendOffset);
         }
         else if (record.Result == GameResultEnum.ExplodedDueToStrikes)
         {

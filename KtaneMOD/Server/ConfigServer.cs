@@ -110,7 +110,11 @@ public sealed class ConfigServer : MonoBehaviour
                         strikeDuration = int.Parse(args["strikeDuration"]),
                         explodeIntensity = int.Parse(args["explodeIntensity"]),
                         explodeDuration = int.Parse(args["explodeDuration"]),
-                        shockBoth = args.TryGetValue("shockBoth", out string value) && value == "on"
+                        shockBoth = args.TryGetValue("shockBoth", out string shockBoth) && shockBoth == "on",
+                        noCheating = args.TryGetValue("noCheating", out string noCheating) && noCheating == "on",
+                        presendOffset = int.Parse(args["presendOffset"]),
+                        minExplodeDelay = int.Parse(args["minExplodeDelay"]),
+                        maxExplodeDelay = int.Parse(args["maxExplodeDelay"])
                     };
                     config.SaveToPlayerPrefs();
 
@@ -131,7 +135,11 @@ public sealed class ConfigServer : MonoBehaviour
                         .Replace("{{strikeDuration}}", config.strikeDuration.ToString())
                         .Replace("{{explodeIntensity}}", config.explodeIntensity.ToString())
                         .Replace("{{explodeDuration}}", config.explodeDuration.ToString())
-                        .Replace("{{shockBoth}}", config.shockBoth ? "checked" : "");
+                        .Replace("{{shockBoth}}", config.shockBoth ? "checked" : "")
+                        .Replace("{{noCheating}}", config.noCheating ? "checked" : "")
+                        .Replace("{{presendOffset}}", config.presendOffset.ToString())
+                        .Replace("{{minExplodeDelay}}", config.minExplodeDelay.ToString())
+                        .Replace("{{maxExplodeDelay}}", config.maxExplodeDelay.ToString());
 
                     response.StatusCode = 200;
                     response.ContentType = "text/html";

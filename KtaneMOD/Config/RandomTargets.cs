@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace KtaneMOD.Config;
 
@@ -13,16 +12,7 @@ public static class RandomTargets
             return [PiShock.Self, PiShock.Partner];
         }
 
-        float rand = Random.Range(0f, 1f);
-
-        Plugin.Logger.LogWarning("RNGesus says: " + rand);
-
-        return rand switch
-        {
-            < 0.2f => [PiShock.Self],
-            < 0.4f => [PiShock.Partner],
-            _ => [PiShock.Self, PiShock.Partner]
-        };
+        return [PiShock.Self];
     }
 
     public static void Strike(this IEnumerable<PiShock> pishocks)

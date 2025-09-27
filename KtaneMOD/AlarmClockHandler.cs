@@ -24,7 +24,7 @@ internal static class AlarmClockHandler
 
         IEnumerator CoTurnOn()
         {
-            yield return new WaitForSeconds(OnlineConfig.PresendOffset);
+            yield return new WaitForSeconds(Plugin.ModConfig.presendOffset);
 
             _disablePatch = true;
             __instance.TurnOn();

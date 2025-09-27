@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+<!--suppress HtmlUnknownAttribute -->
 <html lang="en" style="background-image: url('https://www.fineshare.com/zoom-background/images/banner-funny-zoom-background.webp');">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +34,8 @@
         <div>API Key: <input type="password" name="apiKey" value="{{apiKey}}"/> (this is your PiShock API key not your Twitch API key BRUH)</div>
         <div>YOUR PiShock Code: <input type="password" name="code" value="{{code}}"/></div>
         <div>PARTNER'S PiShock Code: <input type="password" name="partnerCode" value="{{partnerCode}}"/> (a pishock code of the other person playing with you, make sure it's a different one than the one that they have for themselves, because there is a limit of one account per code)</div>
-
+        <div>Avergae expected PiShock latency: <input type="number" name="presendOffset" min="0" max="2000" value="{{presendOffset}}"> ms</div>
+        
         <h2>Strike</h2>
         <div>Intensity: <input type="number" name="strikeIntensity" min="1" max="100" value="{{strikeIntensity}}"/> (between 1 and 100)</div>
         <div>Duration: <input type="number" name="strikeDuration" min="1" value="{{strikeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
@@ -41,11 +43,15 @@
         <h2>Explode</h2>
         <div>Intensity: <input type="number" name="explodeIntensity" min="1" max="100" value="{{explodeIntensity}}"/> (between 1 and 100)</div>
         <div>Duration: <input type="number" name="explodeDuration" min="1" value="{{explodeDuration}}"/> (numbers between 1-15 are treated as seconds, numbers above 100 are treated as milliseconds)</div>
-
+        <div>Minimum delay: <input type="number" name="minExplodeDelay" min="0" max="3000" value="{{minExplodeDelay}}"/> ms</div>
+        <div>Maximum delay: <input type="number" name="maxExplodeDelay" min="0" max="10000" value="{{maxExplodeDelay}}"/> ms</div>
+        
         <br/>
         <div>
-            <!--suppress HtmlUnknownAttribute-->
-            <input type="checkbox" name="shockBoth" {{shockBoth}}/> Fair punishment (ALWAYS shock both players)
+            <input type="checkbox" name="shockBoth" {{shockBoth}}/> Fair punishment (shock both players, not just defuser)
+        </div>
+        <div>
+            <input type="checkbox" name="noCheating" {{noCheating}}/> No cheating (prevents the defuser from going to the main menu or quitting the game)
         </div>
 
         <br/>

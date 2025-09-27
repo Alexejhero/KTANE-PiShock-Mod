@@ -17,6 +17,11 @@ public struct ModConfig
 
     public bool shockBoth;
 
+    public bool noCheating;
+    public int presendOffset;
+    public int minExplodeDelay;
+    public int maxExplodeDelay;
+
     public void SaveToPlayerPrefs()
     {
         PlayerPrefs.SetString("shocker_pishock_username", username);
@@ -28,6 +33,10 @@ public struct ModConfig
         PlayerPrefs.SetInt("shocker_explode_intensity", explodeIntensity);
         PlayerPrefs.SetInt("shocker_explode_duration", explodeDuration);
         PlayerPrefs.SetInt("shocker_shock_both", shockBoth ? 1 : 0);
+        PlayerPrefs.SetInt("shocker_no_cheating", noCheating ? 1 : 0);
+        PlayerPrefs.SetInt("shocker_presend_offset", presendOffset);
+        PlayerPrefs.SetInt("shocker_min_explode_delay", minExplodeDelay);
+        PlayerPrefs.SetInt("shocker_max_explode_delay", maxExplodeDelay);
 
         PlayerPrefs.Save();
     }
@@ -44,7 +53,11 @@ public struct ModConfig
             strikeDuration = PlayerPrefs.GetInt("shocker_strike_duration", 1),
             explodeIntensity = PlayerPrefs.GetInt("shocker_explode_intensity", 30),
             explodeDuration = PlayerPrefs.GetInt("shocker_explode_duration", 1),
-            shockBoth = PlayerPrefs.GetInt("shocker_shock_both", 1) == 1
+            shockBoth = PlayerPrefs.GetInt("shocker_shock_both", 1) == 1,
+            noCheating = PlayerPrefs.GetInt("shocker_no_cheating", 1) == 1,
+            presendOffset = PlayerPrefs.GetInt("shocker_presend_offset", 750),
+            minExplodeDelay = PlayerPrefs.GetInt("shocker_min_explode_delay", 0),
+            maxExplodeDelay = PlayerPrefs.GetInt("shocker_max_explode_delay", 5000)
         };
     }
 }

@@ -5,7 +5,6 @@ using System.Reflection;
 using Assets.Scripts.DossierMenu;
 using HarmonyLib;
 using JetBrains.Annotations;
-using KtaneMOD.Config;
 using UnityEngine;
 
 namespace KtaneMOD;
@@ -13,20 +12,20 @@ namespace KtaneMOD;
 [HarmonyPatch]
 public sealed class NoCheating : MonoBehaviour
 {
-    private static bool ShouldPreventClose => OnlineConfig.NoCheating && Plugin.IsInGame;
+    private static bool ShouldPreventClose => Plugin.ModConfig.noCheating && Plugin.IsInGame;
 
     [HarmonyPatch(typeof(GameplayMenuPage), nameof(GameplayMenuPage.ReturnToSetupRoom))]
     [HarmonyPrefix]
     private static bool ReturnToSetupRoomPatch()
     {
-        return !OnlineConfig.NoCheating;
+        return !Plugin.ModConfig.noCheating;
     }
 
     [HarmonyPatch(typeof(MenuPage), nameof(MenuPage.RefreshLayout))]
     [HarmonyPrefix]
     private static void RefreshLayoutPatch(MenuPage __instance)
     {
-        if (OnlineConfig.NoCheating && __instance is GameplayMenuPage gmp) gmp.returnToSetupEntry.IsHidden = true;
+        if (Plugin.ModConfig.noCheating && __instance is GameplayMenuPage gmp) gmp.returnToSetupEntry.IsHidden = true;
     }
 
     [HarmonyPatch]
